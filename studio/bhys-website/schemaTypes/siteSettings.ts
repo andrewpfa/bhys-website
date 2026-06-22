@@ -138,6 +138,13 @@ export const siteSettings = defineType({
         }),
     }),
     defineField({
+      name: 'mainNavigation',
+      title: 'Main Navigation',
+      type: 'array',
+      description: 'Primary header navigation links shown on every page.',
+      of: [defineArrayMember({type: 'navigationLink'})],
+    }),
+    defineField({
       name: 'footerLinks',
       title: 'Footer Links',
       type: 'array',
