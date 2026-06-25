@@ -14,6 +14,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
       alt
     },
     mainRegistrationUrl,
+    fallRegistrationUrl,
     mobileRegisterCtaLabel,
     mobileRegisterCtaUrl,
     alertBannerEnabled,

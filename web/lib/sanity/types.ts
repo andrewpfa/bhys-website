@@ -34,6 +34,7 @@ export type SiteSettings = {
   description?: string | null;
   logo?: SanityImage;
   mainRegistrationUrl?: string | null;
+  fallRegistrationUrl?: string | null;
   mobileRegisterCtaLabel?: string | null;
   mobileRegisterCtaUrl?: string | null;
   alertBannerEnabled?: boolean | null;
@@ -74,6 +75,36 @@ export type Homepage = {
 } | null;
 
 export type PortableTextValue = PortableTextBlock[] | null;
+
+export type RelatedRef = {
+  title?: string | null;
+  slug?: string | null;
+} | null;
+
+export type Faq = {
+  _id?: string | null;
+  question?: string | null;
+  answer?: PortableTextValue;
+  category?: string | null;
+  relatedPage?: RelatedRef;
+  relatedRegistrationGuide?: RelatedRef;
+};
+
+export type RegistrationGuideDetail = {
+  title?: string | null;
+  slug?: { current?: string | null } | null;
+  summary?: string | null;
+  category?: string | null;
+  registrationStatus?: string | null;
+  registrationUrl?: string | null;
+  heroImage?: SanityImage;
+  body?: PortableTextValue;
+  primaryCtaLabel?: string | null;
+  primaryCtaLink?: string | null;
+  relatedFAQs?: Faq[] | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+} | null;
 
 export type Page = {
   title?: string | null;

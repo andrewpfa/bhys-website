@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { FAQAccordion } from "@/components/FAQAccordion";
 import { PageHero } from "@/components/PageHero";
 import { PortableTextRenderer } from "@/components/PortableTextRenderer";
 import { Container } from "@/components/ui/Container";
-import { getPageBySlug, getPageSlugs } from "@/lib/sanity/fetch";
+import { getFaqs, getPageBySlug, getPageSlugs } from "@/lib/sanity/fetch";
+
+const FAQ_PAGE_SLUG = "resources";
 
 type PageRouteProps = {
   params: Promise<{ slug: string }>;
@@ -46,6 +49,8 @@ export default async function PageRoute({ params }: PageRouteProps) {
   const heroText = page.heroText || page.summary;
   const hasBody = Boolean(page.body && page.body.length > 0);
 
+  const faqs = slug === FAQ_PAGE_SLUG ? await getFaqs() : [];
+
   return (
     <>
       <PageHero
@@ -60,6 +65,25 @@ export default async function PageRoute({ params }: PageRouteProps) {
           <Container>
             <div className="max-w-3xl">
               <PortableTextRenderer value={page.body} />
+            </div>
+          </Container>
+        </section>
+      ) : null}
+
+      {faqs.length > 0 ? (
+        <section className="bg-bhys-muted py-12 sm:py-16 lg:py-20">
+          <Container>
+            <div className="max-w-3xl">
+              <h2 className="text-2xl font-bold tracking-tight text-bhys-ink sm:text-3xl">
+                Frequently Asked Questions
+              </h2>
+              <p className="mt-3 text-base leading-7 text-bhys-ink-muted">
+                Answers to common questions about programs, registration, and
+                getting involved.
+              </p>
+              <div className="mt-10">
+                <FAQAccordion faqs={faqs} />
+              </div>
             </div>
           </Container>
         </section>
