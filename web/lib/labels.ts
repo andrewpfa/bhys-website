@@ -19,6 +19,35 @@ export const REGISTRATION_CATEGORY_LABELS: Record<string, string> = {
   teamCommunication: "Team Communication",
 };
 
+export const NEWS_CATEGORY_LABELS: Record<string, string> = {
+  registration: "Registration",
+  clubNews: "Club News",
+  community: "Community",
+  sponsors: "Sponsors",
+  volunteers: "Volunteers",
+};
+
+export const SPONSOR_LEVEL_LABELS: Record<string, string> = {
+  premierSponsor: "Premier Sponsor",
+  communitySponsor: "Community Sponsor",
+  supportingSponsor: "Supporting Sponsor",
+  partner: "Partner",
+};
+
+export function newsCategoryLabel(category?: string | null) {
+  if (!category) {
+    return null;
+  }
+  return NEWS_CATEGORY_LABELS[category] || null;
+}
+
+export function sponsorLevelLabel(level?: string | null) {
+  if (!level) {
+    return null;
+  }
+  return SPONSOR_LEVEL_LABELS[level] || null;
+}
+
 export const FAQ_CATEGORY_LABELS: Record<string, string> = {
   registration: "Registration",
   scholarships: "Scholarships",

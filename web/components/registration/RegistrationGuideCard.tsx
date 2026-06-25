@@ -34,7 +34,7 @@ export function RegistrationGuideCard({ guide }: RegistrationGuideCardProps) {
     : null;
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-bhys-border bg-white shadow-sm">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-bhys-border bg-white shadow-sm transition hover:shadow-md">
       {imageUrl ? (
         <Image
           src={imageUrl}

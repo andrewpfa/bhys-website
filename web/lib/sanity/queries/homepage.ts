@@ -35,6 +35,15 @@ export const HOMEPAGE_QUERY = defineQuery(/* groq */ `
       },
       primaryCtaLabel,
       primaryCtaLink
-    }
+    },
+    newsSectionTitle,
+    newsSectionIntroText,
+    newsSectionCtaLabel,
+    newsSectionCtaLink,
+    featuredNewsLimit,
+    sponsorsSectionTitle,
+    sponsorsSectionCtaLabel,
+    sponsorsSectionCtaLink,
+    featuredSponsorsLimit
   }
 `);

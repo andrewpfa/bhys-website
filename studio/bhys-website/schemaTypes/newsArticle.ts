@@ -48,7 +48,7 @@ export const newsArticle = defineType({
           {title: 'Club News', value: 'clubNews'},
           {title: 'Community', value: 'community'},
           {title: 'Sponsors', value: 'sponsors'},
-          {title: 'Tournament Results', value: 'tournamentResults'},
+          {title: 'Volunteers', value: 'volunteers'},
         ],
       },
     }),

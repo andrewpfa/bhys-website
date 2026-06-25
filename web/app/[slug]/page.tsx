@@ -4,10 +4,17 @@ import { notFound } from "next/navigation";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { PageHero } from "@/components/PageHero";
 import { PortableTextRenderer } from "@/components/PortableTextRenderer";
+import { SponsorsSection } from "@/components/sponsors/SponsorsSection";
 import { Container } from "@/components/ui/Container";
-import { getFaqs, getPageBySlug, getPageSlugs } from "@/lib/sanity/fetch";
+import {
+  getFaqs,
+  getPageBySlug,
+  getPageSlugs,
+  getSponsors,
+} from "@/lib/sanity/fetch";
 
 const FAQ_PAGE_SLUG = "resources";
+const SPONSORS_PAGE_SLUG = "sponsors";
 
 type PageRouteProps = {
   params: Promise<{ slug: string }>;
@@ -50,6 +57,7 @@ export default async function PageRoute({ params }: PageRouteProps) {
   const hasBody = Boolean(page.body && page.body.length > 0);
 
   const faqs = slug === FAQ_PAGE_SLUG ? await getFaqs() : [];
+  const sponsors = slug === SPONSORS_PAGE_SLUG ? await getSponsors() : [];
 
   return (
     <>
@@ -69,6 +77,8 @@ export default async function PageRoute({ params }: PageRouteProps) {
           </Container>
         </section>
       ) : null}
+
+      {sponsors.length > 0 ? <SponsorsSection sponsors={sponsors} /> : null}
 
       {faqs.length > 0 ? (
         <section className="bg-bhys-muted py-12 sm:py-16 lg:py-20">

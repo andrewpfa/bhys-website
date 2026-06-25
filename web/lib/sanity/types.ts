@@ -72,7 +72,50 @@ export type Homepage = {
   registrationSectionCtaLabel?: string | null;
   registrationSectionCtaLink?: string | null;
   registrationCards?: RegistrationGuideCard[] | null;
+  newsSectionTitle?: string | null;
+  newsSectionIntroText?: string | null;
+  newsSectionCtaLabel?: string | null;
+  newsSectionCtaLink?: string | null;
+  featuredNewsLimit?: number | null;
+  sponsorsSectionTitle?: string | null;
+  sponsorsSectionCtaLabel?: string | null;
+  sponsorsSectionCtaLink?: string | null;
+  featuredSponsorsLimit?: number | null;
 } | null;
+
+export type NewsArticleCard = {
+  title?: string | null;
+  slug?: { current?: string | null } | null;
+  category?: string | null;
+  publishedAt?: string | null;
+  excerpt?: string | null;
+  mainImage?: SanityImage;
+  featured?: boolean | null;
+} | null;
+
+export type NewsArticleDetail = {
+  title?: string | null;
+  slug?: { current?: string | null } | null;
+  category?: string | null;
+  publishedAt?: string | null;
+  excerpt?: string | null;
+  mainImage?: SanityImage;
+  featured?: boolean | null;
+  body?: PortableTextValue;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+} | null;
+
+export type Sponsor = {
+  _id?: string | null;
+  name?: string | null;
+  logo?: SanityImage;
+  websiteUrl?: string | null;
+  sponsorLevel?: string | null;
+  description?: string | null;
+  featuredOnHomepage?: boolean | null;
+  displayOrder?: number | null;
+};
 
 export type PortableTextValue = PortableTextBlock[] | null;
 
