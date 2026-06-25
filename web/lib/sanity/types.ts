@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from "@portabletext/react";
+
 export type SanityImage = {
   asset?: {
     _id?: string;
@@ -69,4 +71,20 @@ export type Homepage = {
   registrationSectionCtaLabel?: string | null;
   registrationSectionCtaLink?: string | null;
   registrationCards?: RegistrationGuideCard[] | null;
+} | null;
+
+export type PortableTextValue = PortableTextBlock[] | null;
+
+export type Page = {
+  title?: string | null;
+  slug?: { current?: string | null } | null;
+  summary?: string | null;
+  heroTitle?: string | null;
+  heroText?: string | null;
+  heroImage?: SanityImage;
+  body?: PortableTextValue;
+  callToActionLabel?: string | null;
+  callToActionLink?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 } | null;
