@@ -1,4 +1,7 @@
+import { cache } from "react";
+
 import { client } from "./client";
+import { EXTERNAL_LINKS_QUERY } from "./queries/externalLink";
 import { FAQS_QUERY } from "./queries/faq";
 import { HOMEPAGE_QUERY } from "./queries/homepage";
 import {
@@ -16,6 +19,7 @@ import {
 import { SITE_SETTINGS_QUERY } from "./queries/siteSettings";
 import { FEATURED_SPONSORS_QUERY, SPONSORS_QUERY } from "./queries/sponsor";
 import type {
+  ExternalLink,
   Faq,
   Homepage,
   NewsArticleCard,
@@ -27,13 +31,13 @@ import type {
   Sponsor,
 } from "./types";
 
-export async function getSiteSettings(): Promise<SiteSettings> {
+export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   try {
     return await client.fetch(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 60 } });
   } catch {
     return null;
   }
-}
+});
 
 export async function getHomepage(): Promise<Homepage> {
   try {
@@ -116,6 +120,19 @@ export async function getFaqs(): Promise<Faq[]> {
       { next: { revalidate: 60 } },
     );
     return (faqs ?? []) as Faq[];
+  } catch {
+    return [];
+  }
+}
+
+export async function getExternalLinks(): Promise<ExternalLink[]> {
+  try {
+    const links = await client.fetch(
+      EXTERNAL_LINKS_QUERY,
+      {},
+      { next: { revalidate: 60 } },
+    );
+    return (links ?? []) as ExternalLink[];
   } catch {
     return [];
   }

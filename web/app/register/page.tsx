@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { PageHero } from "@/components/PageHero";
 import { RegistrationGuideCard } from "@/components/registration/RegistrationGuideCard";
+import { RegisterNowCta } from "@/components/registration/RegisterNowCta";
 import { Container } from "@/components/ui/Container";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { getRegistrationPortalUrl } from "@/lib/registration";
 import { getRegistrationGuides, getSiteSettings } from "@/lib/sanity/fetch";
 
-const HERO_TITLE = "Register For Soccer";
+const HERO_TITLE = "Programs & Registration";
 const HERO_TEXT =
   "Everything families need to understand programs, scholarships, age groups, and the registration process.";
 
@@ -21,14 +23,16 @@ export default async function RegisterPage() {
     getSiteSettings(),
   ]);
 
-  const registerUrl =
-    settings?.mainRegistrationUrl || settings?.fallRegistrationUrl || null;
+  const registerUrl = getRegistrationPortalUrl(settings);
+  const seasonText = settings?.currentSeason
+    ? `${HERO_TEXT} Current season: ${settings.currentSeason}.`
+    : HERO_TEXT;
 
   return (
     <>
       <PageHero
         title={HERO_TITLE}
-        text={HERO_TEXT}
+        text={seasonText}
         cta={
           registerUrl
             ? { label: "Register Now", url: registerUrl }
@@ -48,30 +52,13 @@ export default async function RegisterPage() {
               ))}
             </div>
           ) : (
-            <p className="rounded-2xl border border-dashed border-bhys-border bg-white p-6 text-sm text-bhys-ink-muted">
-              Registration guides will appear here once they are published in the
-              CMS.
-            </p>
+            <EmptyState
+              title="Programs coming soon"
+              message="Registration guides will appear here once they are published in the CMS."
+            />
           )}
 
-          {registerUrl ? (
-            <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-bhys-border bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-xl font-semibold text-bhys-ink">
-                  Ready to register?
-                </h2>
-                <p className="mt-1 text-sm text-bhys-ink-muted">
-                  Head to our registration portal to sign up your player.
-                </p>
-              </div>
-              <Link
-                href={registerUrl}
-                className="inline-flex shrink-0 rounded-full bg-bhys-green px-6 py-3 text-sm font-semibold text-white hover:bg-bhys-green-dark"
-              >
-                Register Now
-              </Link>
-            </div>
-          ) : null}
+          {registerUrl ? <RegisterNowCta url={registerUrl} className="mt-12" /> : null}
         </Container>
       </section>
     </>

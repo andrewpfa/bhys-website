@@ -35,6 +35,7 @@ export const REGISTRATION_GUIDE_QUERY = defineQuery(/* groq */ `
     registrationUrl,
     ${HERO_IMAGE_PROJECTION},
     body,
+    importantDates,
     primaryCtaLabel,
     primaryCtaLink,
     relatedFAQs[]->{

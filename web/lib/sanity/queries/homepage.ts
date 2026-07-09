@@ -37,7 +37,6 @@ export const HOMEPAGE_QUERY = defineQuery(/* groq */ `
       primaryCtaLink
     },
     newsSectionTitle,
-    newsSectionIntroText,
     newsSectionCtaLabel,
     newsSectionCtaLink,
     featuredNewsLimit,

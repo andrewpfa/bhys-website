@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
+import { isExternalUrl } from "@/lib/navigation";
 import { urlForImage } from "@/lib/sanity/image";
 import type { CtaButton, Homepage, SanityImage } from "@/lib/sanity/types";
 
@@ -24,6 +25,20 @@ function CtaLink({
     variant === "primary"
       ? "inline-flex items-center justify-center rounded-full bg-bhys-green px-6 py-3 text-sm font-semibold text-white hover:bg-bhys-green-dark"
       : "inline-flex items-center justify-center rounded-full border border-bhys-border bg-white px-6 py-3 text-sm font-semibold text-bhys-ink hover:bg-bhys-muted";
+
+  if (isExternalUrl(button.url)) {
+    return (
+      <a
+        href={button.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {button.label}
+        <span className="sr-only"> (opens in new tab)</span>
+      </a>
+    );
+  }
 
   return (
     <Link href={button.url} className={className}>

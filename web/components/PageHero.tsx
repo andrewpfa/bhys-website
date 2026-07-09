@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
+import { isExternalUrl } from "@/lib/navigation";
 import { urlForImage } from "@/lib/sanity/image";
 import type { SanityImage } from "@/lib/sanity/types";
 
@@ -23,6 +24,10 @@ export function PageHero({ title, text, image, cta }: PageHeroProps) {
     ? urlForImage(image!).width(960).height(720).fit("crop").url()
     : null;
   const showCta = Boolean(cta?.label && cta?.url);
+  const ctaExternal = cta?.url ? isExternalUrl(cta.url) : false;
+
+  const ctaClassName =
+    "inline-flex items-center justify-center rounded-full bg-bhys-green px-6 py-3 text-sm font-semibold text-white hover:bg-bhys-green-dark";
 
   return (
     <section className="bg-white py-12 sm:py-16 lg:py-20">
@@ -45,12 +50,21 @@ export function PageHero({ title, text, image, cta }: PageHeroProps) {
             ) : null}
             {showCta ? (
               <div className="mt-8">
-                <Link
-                  href={cta!.url!}
-                  className="inline-flex items-center justify-center rounded-full bg-bhys-green px-6 py-3 text-sm font-semibold text-white hover:bg-bhys-green-dark"
-                >
-                  {cta!.label}
-                </Link>
+                {ctaExternal ? (
+                  <a
+                    href={cta!.url!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={ctaClassName}
+                  >
+                    {cta!.label}
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                ) : (
+                  <Link href={cta!.url!} className={ctaClassName}>
+                    {cta!.label}
+                  </Link>
+                )}
               </div>
             ) : null}
           </div>

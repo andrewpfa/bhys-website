@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { PortableTextRenderer } from "@/components/PortableTextRenderer";
 import { Container } from "@/components/ui/Container";
-import { formatDate } from "@/lib/date";
+import { formatDate, formatDateIso } from "@/lib/date";
 import { newsCategoryLabel } from "@/lib/labels";
 import { getNewsArticleBySlug, getNewsArticleSlugs } from "@/lib/sanity/fetch";
 
@@ -45,15 +45,12 @@ export default async function NewsArticlePage({ params }: NewsRouteProps) {
   const title = article.title || "News Article";
   const categoryLabel = newsCategoryLabel(article.category);
   const publishedDate = formatDate(article.publishedAt);
+  const dateTime = formatDateIso(article.publishedAt);
   const hasBody = Boolean(article.body && article.body.length > 0);
 
   return (
     <>
-      <PageHero
-        title={title}
-        text={article.excerpt}
-        image={article.mainImage}
-      />
+      <PageHero title={title} image={article.mainImage} />
 
       <section className="bg-white pb-12 sm:pb-16 lg:pb-20">
         <Container>
@@ -72,7 +69,9 @@ export default async function NewsArticlePage({ params }: NewsRouteProps) {
                     {categoryLabel}
                   </span>
                 ) : null}
-                {publishedDate ? <time>{publishedDate}</time> : null}
+                {publishedDate && dateTime ? (
+                  <time dateTime={dateTime}>{publishedDate}</time>
+                ) : null}
               </div>
             ) : null}
 
@@ -80,6 +79,10 @@ export default async function NewsArticlePage({ params }: NewsRouteProps) {
               <div className="mt-6">
                 <PortableTextRenderer value={article.body} />
               </div>
+            ) : article.excerpt ? (
+              <p className="mt-6 text-base leading-7 text-bhys-ink-muted">
+                {article.excerpt}
+              </p>
             ) : null}
           </div>
         </Container>

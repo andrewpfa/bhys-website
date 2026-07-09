@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { urlForImage } from "@/lib/sanity/image";
-import type { RegistrationGuideCard as RegistrationGuideCardType } from "@/lib/sanity/types";
+import { CtaButton } from "@/components/ui/CtaButton";
 import {
   REGISTRATION_CATEGORY_LABELS,
   registrationStatusLabel,
   registrationStatusStyle,
 } from "@/lib/labels";
+import { urlForImage } from "@/lib/sanity/image";
+import type { RegistrationGuideCard as RegistrationGuideCardType } from "@/lib/sanity/types";
 
 type RegistrationGuideCardProps = {
   guide: RegistrationGuideCardType;
@@ -19,7 +20,7 @@ export function RegistrationGuideCard({ guide }: RegistrationGuideCardProps) {
   }
 
   const slug = guide.slug?.current;
-  const href = slug ? `/register/${slug}` : guide.registrationUrl || undefined;
+  const href = slug ? `/register/${slug}` : undefined;
   const showStatusBadge =
     guide.category === "fallSoccer" || guide.category === "springSoccer";
   const statusLabel = showStatusBadge
@@ -34,7 +35,7 @@ export function RegistrationGuideCard({ guide }: RegistrationGuideCardProps) {
     : null;
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-bhys-border bg-white shadow-sm transition hover:shadow-md">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-bhys-border bg-white shadow-sm transition hover:border-bhys-green/30 hover:shadow-md">
       {imageUrl ? (
         <Image
           src={imageUrl}
@@ -82,12 +83,9 @@ export function RegistrationGuideCard({ guide }: RegistrationGuideCardProps) {
         ) : null}
 
         {href ? (
-          <Link
-            href={href}
-            className="mt-6 inline-flex w-fit rounded-full bg-bhys-green px-4 py-2 text-sm font-semibold text-white hover:bg-bhys-green-dark"
-          >
-            View Details
-          </Link>
+          <CtaButton href={href} variant="secondary" className="mt-6 px-4 py-2">
+            View Guide
+          </CtaButton>
         ) : null}
       </div>
     </article>

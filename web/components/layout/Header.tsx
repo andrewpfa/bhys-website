@@ -2,11 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
+import { CtaButton } from "@/components/ui/CtaButton";
+import { getRegistrationPortalUrl } from "@/lib/registration";
+import { isExternalUrl } from "@/lib/navigation";
 import { urlForImage } from "@/lib/sanity/image";
 import type { SiteSettings } from "@/lib/sanity/types";
 
 import { AlertBanner } from "./AlertBanner";
 import { MobileMenu } from "./MobileMenu";
+import { NavLink } from "./NavLink";
 
 type HeaderProps = {
   settings: SiteSettings;
@@ -15,9 +19,7 @@ type HeaderProps = {
 export function Header({ settings }: HeaderProps) {
   const siteTitle = settings?.siteTitle || "Beacon Hill Youth Soccer";
   const navLinks = settings?.mainNavigation ?? [];
-  const registerUrl =
-    settings?.mainRegistrationUrl || settings?.mobileRegisterCtaUrl || "";
-  const registerLabel = settings?.mobileRegisterCtaLabel || "Register";
+  const registerUrl = getRegistrationPortalUrl(settings);
 
   const logoUrl = settings?.logo?.asset?.url
     ? urlForImage(settings.logo).width(160).height(48).fit("max").url()
@@ -55,33 +57,25 @@ export function Header({ settings }: HeaderProps) {
             {navLinks.map((link) =>
               link?.label && link?.url ? (
                 <li key={`${link.label}-${link.url}`}>
-                  <Link
-                    href={link.url}
-                    className="text-sm font-medium text-bhys-ink hover:text-bhys-green"
-                  >
-                    {link.label}
-                  </Link>
+                  <NavLink href={link.url} label={link.label} />
                 </li>
               ) : null,
             )}
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {registerUrl ? (
-            <Link
+            <CtaButton
               href={registerUrl}
-              className="hidden rounded-full bg-bhys-green px-4 py-2 text-sm font-semibold text-white hover:bg-bhys-green-dark md:inline-flex"
+              external={isExternalUrl(registerUrl)}
+              className="px-3 py-2 text-xs sm:px-4 sm:text-sm"
             >
-              {registerLabel}
-            </Link>
+              Register Now
+            </CtaButton>
           ) : null}
 
-          <MobileMenu
-            links={navLinks}
-            registerLabel={registerLabel}
-            registerUrl={registerUrl}
-          />
+          <MobileMenu links={navLinks} registerUrl={registerUrl || ""} />
         </div>
       </Container>
     </header>

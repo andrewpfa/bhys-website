@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SkipLink } from "@/components/ui/SkipLink";
 import { getSiteSettings } from "@/lib/sanity/fetch";
 
 import "./globals.css";
@@ -45,8 +46,11 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
+        <SkipLink />
         <Header settings={settings} />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
         <Footer settings={settings} />
       </body>
     </html>

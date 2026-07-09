@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { NewsCard } from "@/components/news/NewsCard";
 import { PageHero } from "@/components/PageHero";
 import { Container } from "@/components/ui/Container";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { getNewsArticles } from "@/lib/sanity/fetch";
 import type { NewsArticleCard } from "@/lib/sanity/types";
 
@@ -33,23 +34,32 @@ export default async function NewsPage() {
       <section className="bg-bhys-muted py-12 sm:py-16 lg:py-20">
         <Container>
           {articles.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-bhys-border bg-white p-6 text-sm text-bhys-ink-muted">
-              News articles will appear here once they are published in the CMS.
-            </p>
+            <EmptyState
+              title="No news yet"
+              message="News articles will appear here once they are published in the CMS."
+            />
           ) : (
             <div className="space-y-10">
               {featuredArticle ? (
-                <NewsCard article={featuredArticle} featured />
+                <div>
+                  <h2 className="sr-only">Featured article</h2>
+                  <NewsCard article={featuredArticle} featured />
+                </div>
               ) : null}
 
               {remainingArticles.length > 0 ? (
-                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {remainingArticles.map((article, index) => (
-                    <NewsCard
-                      key={article?.slug?.current || article?.title || index}
-                      article={article}
-                    />
-                  ))}
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight text-bhys-ink sm:text-3xl">
+                    {featuredArticle ? "More News" : "All News"}
+                  </h2>
+                  <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                    {remainingArticles.map((article, index) => (
+                      <NewsCard
+                        key={article?.slug?.current || article?.title || index}
+                        article={article}
+                      />
+                    ))}
+                  </div>
                 </div>
               ) : null}
             </div>

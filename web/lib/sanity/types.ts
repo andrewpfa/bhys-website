@@ -35,6 +35,9 @@ export type SiteSettings = {
   logo?: SanityImage;
   mainRegistrationUrl?: string | null;
   fallRegistrationUrl?: string | null;
+  donationUrl?: string | null;
+  sponsorEnquiryFormUrl?: string | null;
+  currentSeason?: string | null;
   mobileRegisterCtaLabel?: string | null;
   mobileRegisterCtaUrl?: string | null;
   alertBannerEnabled?: boolean | null;
@@ -73,7 +76,6 @@ export type Homepage = {
   registrationSectionCtaLink?: string | null;
   registrationCards?: RegistrationGuideCard[] | null;
   newsSectionTitle?: string | null;
-  newsSectionIntroText?: string | null;
   newsSectionCtaLabel?: string | null;
   newsSectionCtaLink?: string | null;
   featuredNewsLimit?: number | null;
@@ -142,12 +144,28 @@ export type RegistrationGuideDetail = {
   registrationUrl?: string | null;
   heroImage?: SanityImage;
   body?: PortableTextValue;
+  importantDates?: ImportantDate[] | null;
   primaryCtaLabel?: string | null;
   primaryCtaLink?: string | null;
   relatedFAQs?: Faq[] | null;
   seoTitle?: string | null;
   seoDescription?: string | null;
 } | null;
+
+export type ImportantDate = {
+  label?: string | null;
+  date?: string | null;
+  note?: string | null;
+};
+
+export type ExternalLink = {
+  _id?: string | null;
+  title?: string | null;
+  url?: string | null;
+  description?: string | null;
+  category?: string | null;
+  displayOrder?: number | null;
+};
 
 export type Page = {
   title?: string | null;

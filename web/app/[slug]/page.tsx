@@ -4,12 +4,16 @@ import { notFound } from "next/navigation";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { PageHero } from "@/components/PageHero";
 import { PortableTextRenderer } from "@/components/PortableTextRenderer";
+import { ExternalLinksSection } from "@/components/resources/ExternalLinksSection";
+import { SponsorFundraisingCtas } from "@/components/sponsors/SponsorFundraisingCtas";
 import { SponsorsSection } from "@/components/sponsors/SponsorsSection";
 import { Container } from "@/components/ui/Container";
 import {
+  getExternalLinks,
   getFaqs,
   getPageBySlug,
   getPageSlugs,
+  getSiteSettings,
   getSponsors,
 } from "@/lib/sanity/fetch";
 
@@ -52,12 +56,19 @@ export default async function PageRoute({ params }: PageRouteProps) {
     notFound();
   }
 
+  const settings = await getSiteSettings();
   const heroTitle = page.heroTitle || page.title || "Beacon Hill Youth Soccer";
-  const heroText = page.heroText || page.summary;
+  const heroText =
+    slug === FAQ_PAGE_SLUG && settings?.currentSeason
+      ? `${page.heroText || page.summary || ""} Current season: ${settings.currentSeason}.`.trim()
+      : page.heroText || page.summary;
   const hasBody = Boolean(page.body && page.body.length > 0);
 
-  const faqs = slug === FAQ_PAGE_SLUG ? await getFaqs() : [];
-  const sponsors = slug === SPONSORS_PAGE_SLUG ? await getSponsors() : [];
+  const [faqs, sponsors, externalLinks] = await Promise.all([
+    slug === FAQ_PAGE_SLUG ? getFaqs() : Promise.resolve([]),
+    slug === SPONSORS_PAGE_SLUG ? getSponsors() : Promise.resolve([]),
+    slug === FAQ_PAGE_SLUG ? getExternalLinks() : Promise.resolve([]),
+  ]);
 
   return (
     <>
@@ -78,7 +89,27 @@ export default async function PageRoute({ params }: PageRouteProps) {
         </section>
       ) : null}
 
-      {sponsors.length > 0 ? <SponsorsSection sponsors={sponsors} /> : null}
+      {slug === FAQ_PAGE_SLUG && externalLinks.length > 0 ? (
+        <section className="bg-bhys-muted py-12 sm:py-16 lg:py-20">
+          <Container>
+            <ExternalLinksSection links={externalLinks} />
+          </Container>
+        </section>
+      ) : null}
+
+      {slug === SPONSORS_PAGE_SLUG ? (
+        <>
+          {sponsors.length > 0 ? <SponsorsSection sponsors={sponsors} /> : null}
+          <section className="bg-bhys-muted py-12 sm:py-16 lg:py-20">
+            <Container>
+              <SponsorFundraisingCtas
+                donationUrl={settings?.donationUrl}
+                sponsorEnquiryFormUrl={settings?.sponsorEnquiryFormUrl}
+              />
+            </Container>
+          </section>
+        </>
+      ) : null}
 
       {faqs.length > 0 ? (
         <section className="bg-bhys-muted py-12 sm:py-16 lg:py-20">

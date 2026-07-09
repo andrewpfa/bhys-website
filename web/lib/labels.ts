@@ -48,6 +48,30 @@ export function sponsorLevelLabel(level?: string | null) {
   return SPONSOR_LEVEL_LABELS[level] || null;
 }
 
+export const EXTERNAL_LINK_CATEGORY_LABELS: Record<string, string> = {
+  sysa: "SYSA",
+  weather: "Weather",
+  fields: "Fields",
+  coaches: "Coaches",
+  safety: "Safety",
+  registration: "Registration",
+};
+
+export const RESOURCES_EXTERNAL_LINK_CATEGORIES = [
+  "sysa",
+  "weather",
+  "fields",
+  "coaches",
+  "safety",
+] as const;
+
+export function externalLinkCategoryLabel(category?: string | null) {
+  if (!category) {
+    return null;
+  }
+  return EXTERNAL_LINK_CATEGORY_LABELS[category] || null;
+}
+
 export const FAQ_CATEGORY_LABELS: Record<string, string> = {
   registration: "Registration",
   scholarships: "Scholarships",

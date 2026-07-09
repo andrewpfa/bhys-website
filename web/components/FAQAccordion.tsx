@@ -52,7 +52,7 @@ function FaqItem({ faq }: { faq: Faq }) {
 
   return (
     <details className="group border-b border-bhys-border last:border-b-0">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-semibold text-bhys-ink">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-md py-4 text-left text-base font-semibold text-bhys-ink focus-visible:outline-none">
         <span>{faq.question}</span>
         <svg
           aria-hidden="true"

@@ -22,7 +22,6 @@ export function LatestNewsSection({
   }
 
   const title = homepage?.newsSectionTitle || "Latest News";
-  const introText = homepage?.newsSectionIntroText;
   const ctaLabel = homepage?.newsSectionCtaLabel || "View All News";
   const ctaLink = homepage?.newsSectionCtaLink || "/news";
 
@@ -34,11 +33,6 @@ export function LatestNewsSection({
             <h2 className="text-2xl font-bold tracking-tight text-bhys-ink sm:text-3xl">
               {title}
             </h2>
-            {introText ? (
-              <p className="mt-3 text-base leading-7 text-bhys-ink-muted">
-                {introText}
-              </p>
-            ) : null}
           </div>
 
           {ctaLink ? (

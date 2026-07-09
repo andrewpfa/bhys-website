@@ -1,18 +1,40 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { CtaButton } from "@/components/ui/CtaButton";
+import { isExternalUrl } from "@/lib/navigation";
 import type { NavigationLink } from "@/lib/sanity/types";
+
+import { NavLink } from "./NavLink";
 
 type MobileMenuProps = {
   links: NavigationLink[];
-  registerLabel: string;
   registerUrl: string;
 };
 
-export function MobileMenu({ links, registerLabel, registerUrl }: MobileMenuProps) {
+export function MobileMenu({ links, registerUrl }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <div className="md:hidden">
@@ -24,7 +46,6 @@ export function MobileMenu({ links, registerLabel, registerUrl }: MobileMenuProp
         className="inline-flex items-center justify-center rounded-md border border-bhys-border p-2 text-bhys-ink"
         onClick={() => setOpen((current) => !current)}
       >
-        <span className="sr-only">Toggle navigation</span>
         <svg
           aria-hidden="true"
           className="h-5 w-5"
@@ -53,31 +74,31 @@ export function MobileMenu({ links, registerLabel, registerUrl }: MobileMenuProp
       {open ? (
         <nav
           id="mobile-menu"
+          aria-label="Mobile navigation"
           className="absolute left-0 right-0 top-full z-50 border-b border-bhys-border bg-white shadow-md"
         >
           <ul className="flex flex-col gap-1 px-4 py-4">
             {links.map((link) =>
               link?.label && link?.url ? (
                 <li key={`${link.label}-${link.url}`}>
-                  <Link
+                  <NavLink
                     href={link.url}
-                    className="block rounded-md px-3 py-2 text-sm font-medium text-bhys-ink hover:bg-bhys-muted"
+                    label={link.label}
+                    mobile
                     onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
+                  />
                 </li>
               ) : null,
             )}
             {registerUrl ? (
               <li className="pt-2">
-                <Link
+                <CtaButton
                   href={registerUrl}
-                  className="block rounded-full bg-bhys-green px-4 py-2 text-center text-sm font-semibold text-white"
-                  onClick={() => setOpen(false)}
+                  external={isExternalUrl(registerUrl)}
+                  className="w-full justify-center"
                 >
-                  {registerLabel}
-                </Link>
+                  Register Now
+                </CtaButton>
               </li>
             ) : null}
           </ul>

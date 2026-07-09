@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatDate } from "@/lib/date";
+import { formatDate, formatDateIso } from "@/lib/date";
 import { newsCategoryLabel } from "@/lib/labels";
 import { urlForImage } from "@/lib/sanity/image";
 import type { NewsArticleCard } from "@/lib/sanity/types";
@@ -14,6 +14,7 @@ type NewsCardProps = {
 function CategoryAndDate({ article }: { article: NewsArticleCard }) {
   const categoryLabel = newsCategoryLabel(article?.category);
   const publishedDate = formatDate(article?.publishedAt);
+  const dateTime = formatDateIso(article?.publishedAt);
 
   if (!categoryLabel && !publishedDate) {
     return null;
@@ -26,7 +27,7 @@ function CategoryAndDate({ article }: { article: NewsArticleCard }) {
           {categoryLabel}
         </span>
       ) : null}
-      {publishedDate ? <time>{publishedDate}</time> : null}
+      {publishedDate && dateTime ? <time dateTime={dateTime}>{publishedDate}</time> : null}
     </div>
   );
 }
